@@ -19,7 +19,7 @@ export default function LocksmithMatcher() {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [availableLocksmiths, setAvailableLocksmiths] = useState<Locksmith[]>([]);
+  const [availableLocksmiths] = useState<Locksmith[]>([]);
 
   const serviceTypes = [
     { id: 'emergency', label: 'Emergency Lockout', icon: '🚨' },

@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import styles from './confirm.module.css';
 
 interface Locksmith {
@@ -18,136 +17,114 @@ interface Locksmith {
   specialties: string[];
   certifications: string[];
   verified: boolean;
-  backgroundChecked: boolean;
-  insurance: boolean;
+  backgroundCheck: boolean;
+  insured: boolean;
   responseRate: number;
-  responseTime: string;
-  companyName: string;
-  licenseNumber: string;
+  languages: string[];
+  licenseNumber: string; // Added missing property
 }
 
 function ConfirmPageContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const [locksmith, setLocksmith] = useState<Locksmith | null>(null);
+  const locksmithId = searchParams.get('id');
   const [status, setStatus] = useState<'confirming' | 'confirmed' | 'arriving'>('confirming');
   const [countdown, setCountdown] = useState(5);
 
-  useEffect(() => {
-    const locksmithId = searchParams.get('id');
-    if (!locksmithId) {
-      router.push('/locksmiths');
-      return;
-    }
-
-    // In a real app, this would be an API call
-    const mockLocksmith: Locksmith = {
-      id: locksmithId,
-      name: 'John Smith',
-      rating: 4.8,
-      distance: 2.5,
-      estimatedTime: 15,
-      price: 75,
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      experience: 15,
-      reviews: 234,
-      specialties: ['Residential', 'Commercial', 'Automotive'],
-      certifications: ['ALOA Certified', 'Safe & Vault Technician', 'Master Locksmith'],
-      verified: true,
-      backgroundChecked: true,
-      insurance: true,
-      responseRate: 98,
-      responseTime: '< 5 min',
-      companyName: 'Smith Security Solutions',
-      licenseNumber: 'L-12345',
-    };
-
-    setLocksmith(mockLocksmith);
-  }, [searchParams, router]);
-
-  useEffect(() => {
-    if (status === 'confirming' && countdown > 0) {
-      const timer = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (status === 'confirming' && countdown === 0) {
-      setStatus('confirmed');
-    }
-  }, [countdown, status]);
-
-  const handleConfirm = () => {
-    setStatus('arriving');
+  // Mock locksmith data
+  const locksmith: Locksmith = {
+    id: locksmithId || '1',
+    name: 'John Smith',
+    rating: 4.9,
+    distance: 2.5,
+    estimatedTime: 15,
+    price: 75,
+    image: 'https://randomuser.me/api/portraits/men/32.jpg',
+    experience: 12,
+    reviews: 847,
+    specialties: ['Emergency Lockout', 'Rekeying', 'Lock Installation'],
+    certifications: ['ALOA Certified', 'Safe & Vault Technician'],
+    verified: true,
+    backgroundCheck: true,
+    insured: true,
+    responseRate: 98,
+    languages: ['English', 'Spanish'],
+    licenseNumber: 'L-12345', // Added missing property
   };
 
-  if (!locksmith) {
-    return <div className={styles.loading}>Loading...</div>;
-  }
+  useEffect(() => {
+    // Simulate the confirmation process
+    const timer = setTimeout(() => {
+      setStatus('confirmed');
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (status === 'confirming') {
+      const interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === 'confirmed') {
+      const timer = setTimeout(() => {
+        setStatus('arriving');
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1>Confirm Your Locksmith</h1>
-        <p className={styles.subtitle}>
-          {status === 'confirming' && 'Verifying locksmith availability...'}
-          {status === 'confirmed' && 'Locksmith is available and ready to help!'}
-          {status === 'arriving' && 'Your locksmith is on the way!'}
-        </p>
-      </div>
-
       <div className={styles.content}>
-        <div className={styles.locksmithCard}>
-          <div className={styles.cardHeader}>
-            <div className={styles.imageContainer}>
-              <Image
-                src={locksmith.image}
-                alt={locksmith.name}
-                width={120}
-                height={120}
-                className={styles.image}
-              />
-              {locksmith.verified && (
-                <div className={styles.verifiedBadge} title="Verified Professional">
-                  ✓
-                </div>
-              )}
-            </div>
-            <div className={styles.headerInfo}>
-              <h2>{locksmith.name}</h2>
-              <p className={styles.companyName}>{locksmith.companyName}</p>
-              <div className={styles.rating}>
-                <span>⭐ {locksmith.rating}</span>
-                <span>({locksmith.reviews} reviews)</span>
-              </div>
-            </div>
-          </div>
+        <div className={styles.header}>
+          <h1>Confirm Your Locksmith</h1>
+          <p className={styles.subtitle}>
+            {status === 'confirming' && 'We&apos;re verifying your locksmith&apos;s availability...'}
+            {status === 'confirmed' && 'Locksmith is available and ready to help!'}
+            {status === 'arriving' && 'Your locksmith is on the way!'}
+          </p>
+        </div>
 
+        <div className={styles.mainContent}>
           <div className={styles.statusSection}>
             {status === 'confirming' && (
-              <div className={styles.countdown}>
-                <div className={styles.countdownNumber}>{countdown}</div>
-                <p>Verifying availability...</p>
+              <div className={styles.verifying}>
+                <div className={styles.countdown}>
+                  <div className={styles.countdownNumber}>{countdown}</div>
+                  <p>We&apos;re verifying your locksmith&apos;s availability...</p>
+                </div>
               </div>
             )}
+
             {status === 'confirmed' && (
-              <div className={styles.confirmation}>
+              <div className={styles.confirmed}>
                 <div className={styles.checkmark}>✓</div>
-                <p>Locksmith is available!</p>
-                <button onClick={handleConfirm} className={styles.confirmButton}>
-                  Confirm Booking
-                </button>
+                <h2>Locksmith Confirmed!</h2>
+                <p>John Smith is on his way to your location</p>
+                <div className={styles.eta}>
+                  <span>Estimated arrival: 15 minutes</span>
+                </div>
               </div>
             )}
+
             {status === 'arriving' && (
               <div className={styles.arriving}>
-                <div className={styles.arrivingAnimation}>
-                  <div className={styles.car}>🚗</div>
-                </div>
-                <p>Your locksmith is on the way!</p>
-                <div className={styles.eta}>
-                  <span>Estimated arrival time:</span>
-                  <span className={styles.time}>{locksmith.estimatedTime} minutes</span>
-                </div>
+                <div className={styles.arrivalIcon}>🚗</div>
+                <h2>Your Locksmith is Arriving!</h2>
+                <p>John Smith is currently en route to your location</p>
                 <div className={styles.contactInfo}>
                   <p>You&apos;ll receive a text message with the locksmith&apos;s contact information</p>
                   <p>Please keep your phone nearby</p>

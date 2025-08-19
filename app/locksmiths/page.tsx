@@ -17,16 +17,15 @@ interface Locksmith {
   specialties: string[];
   certifications: string[];
   verified: boolean;
-  backgroundChecked: boolean;
+  backgroundCheck: boolean;
   insured: boolean;
   responseRate: number;
-  licenseNumber: string;
-  yearsInBusiness: number;
+  languages: string[];
 }
 
 export default function LocksmithsPage() {
   const router = useRouter();
-  
+
   const locksmiths: Locksmith[] = [
     {
       id: '1',
@@ -41,11 +40,10 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Commercial', 'Automotive'],
       certifications: ['ALOA Certified', 'Safe & Vault Technician', 'Master Locksmith'],
       verified: true,
-      backgroundChecked: true,
+      backgroundCheck: true,
       insured: true,
       responseRate: 98,
-      licenseNumber: 'L-12345',
-      yearsInBusiness: 10,
+      languages: ['English', 'Spanish'],
     },
     {
       id: '2',
@@ -60,11 +58,10 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Automotive', 'Smart Locks'],
       certifications: ['ALOA Certified', 'Electronic Security Specialist'],
       verified: true,
-      backgroundChecked: true,
+      backgroundCheck: true,
       insured: true,
       responseRate: 100,
-      licenseNumber: 'L-67890',
-      yearsInBusiness: 8,
+      languages: ['English', 'French'],
     },
     {
       id: '3',
@@ -79,11 +76,10 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Commercial', 'Automotive', 'Safe'],
       certifications: ['ALOA Certified', 'Safe & Vault Technician', 'Master Locksmith', 'Security Consultant'],
       verified: true,
-      backgroundChecked: true,
+      backgroundCheck: true,
       insured: true,
       responseRate: 99,
-      licenseNumber: 'L-24680',
-      yearsInBusiness: 12,
+      languages: ['English', 'German'],
     },
   ];
 
@@ -130,7 +126,7 @@ export default function LocksmithsPage() {
             </div>
 
             <div className={styles.trustIndicators}>
-              {locksmith.backgroundChecked && (
+              {locksmith.backgroundCheck && (
                 <span className={styles.trustBadge} title="Background Checked">
                   🔒 Background Checked
                 </span>
@@ -143,17 +139,9 @@ export default function LocksmithsPage() {
               <span className={styles.trustBadge} title="Response Rate">
                 💬 {locksmith.responseRate}% Response Rate
               </span>
-              <span className={styles.trustBadge} title="Years in Business">
-                🏢 {locksmith.yearsInBusiness} years in business
-              </span>
             </div>
 
             <div className={styles.details}>
-              <h3>{locksmith.name}</h3>
-              <div className={styles.rating}>
-                <span className={styles.stars}>⭐ {locksmith.rating}</span>
-                <span className={styles.reviews}>({locksmith.reviews} reviews)</span>
-              </div>
               <div className={styles.info}>
                 <span>📍 {locksmith.distance} miles away</span>
                 <span>⏱️ {locksmith.estimatedTime} min</span>
@@ -161,6 +149,7 @@ export default function LocksmithsPage() {
               </div>
               <div className={styles.experience}>
                 <span>🛠️ {locksmith.experience} years experience</span>
+                <span>📞 {locksmith.responseRate}% response rate</span>
               </div>
             </div>
 

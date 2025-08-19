@@ -1,12 +1,9 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import styles from './confirm.module.css';
 
-function ConfirmPageContent() {
-  const searchParams = useSearchParams();
-  const locksmithId = searchParams.get('id');
+export default function ConfirmPage() {
   const [status, setStatus] = useState<'verifying' | 'confirmed' | 'arriving'>('verifying');
   const [countdown, setCountdown] = useState(5);
 
@@ -61,7 +58,7 @@ function ConfirmPageContent() {
           <div className={styles.details}>
             <div className={styles.detail}>
               <span className={styles.label}>Service ID:</span>
-              <span className={styles.value}>#{locksmithId || '12345'}</span>
+              <span className={styles.value}>#12345</span>
             </div>
             <div className={styles.detail}>
               <span className={styles.label}>Service Type:</span>
@@ -90,13 +87,5 @@ function ConfirmPageContent() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function ConfirmPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ConfirmPageContent />
-    </Suspense>
   );
 } 

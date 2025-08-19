@@ -20,7 +20,7 @@ export default function Home() {
               <div className={styles.featureIcon}>⚡</div>
               <h3 className={styles.featureTitle}>Fast Response</h3>
               <p className={styles.featureDescription}>
-                OpenUp's average response time of 15-30 minutes in your area
+                OpenUp&apos;s average response time of 15-30 minutes in your area
               </p>
             </div>
             <div className={styles.feature}>
@@ -39,7 +39,7 @@ export default function Home() {
               <div className={styles.featureIcon}>⭐</div>
               <h3 className={styles.featureTitle}>Top Rated</h3>
               <p className={styles.featureDescription}>
-                OpenUp's highly rated locksmiths with proven track records
+                OpenUp&apos;s highly rated locksmiths with proven track records
               </p>
             </div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
+// OpenUp Locksmith Service - Layout Configuration
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
 import styles from './locksmiths.module.css';
 
 interface Locksmith {
@@ -25,6 +26,7 @@ interface Locksmith {
 
 export default function LocksmithsPage() {
   const router = useRouter();
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   const locksmiths: Locksmith[] = [
     {
@@ -34,7 +36,7 @@ export default function LocksmithsPage() {
       distance: 2.5,
       estimatedTime: 15,
       price: 75,
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
       experience: 15,
       reviews: 234,
       specialties: ['Residential', 'Commercial', 'Automotive'],
@@ -52,7 +54,7 @@ export default function LocksmithsPage() {
       distance: 3.1,
       estimatedTime: 20,
       price: 65,
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
+      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
       experience: 12,
       reviews: 189,
       specialties: ['Residential', 'Automotive', 'Smart Locks'],
@@ -70,7 +72,7 @@ export default function LocksmithsPage() {
       distance: 4.2,
       estimatedTime: 25,
       price: 85,
-      image: 'https://randomuser.me/api/portraits/men/67.jpg',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
       experience: 20,
       reviews: 412,
       specialties: ['Residential', 'Commercial', 'Automotive', 'Safe'],
@@ -85,6 +87,10 @@ export default function LocksmithsPage() {
 
   const handleSelectLocksmith = (id: string) => {
     router.push(`/locksmiths/confirm?id=${id}`);
+  };
+
+  const handleImageError = (locksmithId: string) => {
+    setImageErrors(prev => ({ ...prev, [locksmithId]: true }));
   };
 
   return (
@@ -103,13 +109,21 @@ export default function LocksmithsPage() {
           >
             <div className={styles.cardHeader}>
               <div className={styles.imageContainer}>
-                <Image
-                  src={locksmith.image}
-                  alt={locksmith.name}
-                  width={80}
-                  height={80}
-                  className={styles.locksmithImage}
-                />
+                {!imageErrors[locksmith.id] ? (
+                  <Image
+                    src={locksmith.image}
+                    alt={locksmith.name}
+                    width={80}
+                    height={80}
+                    className={styles.locksmithImage}
+                    onError={() => handleImageError(locksmith.id)}
+                    unoptimized
+                  />
+                ) : (
+                  <div className={styles.fallbackImage}>
+                    <span>👨‍🔧</span>
+                  </div>
+                )}
                 {locksmith.verified && (
                   <div className={styles.verifiedBadge} title="Verified Professional">
                     ✓

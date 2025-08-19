@@ -11,7 +11,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.content}>
           <h1>24/7 Emergency Locksmith Service</h1>
-          <p>Get connected with OpenUp&apos;s licensed &amp; verified locksmiths in minutes</p>
+          <p>Get reliable locksmith help anytime, anywhere. OpenUp&apos;s licensed professionals are ready to assist you with transparent pricing and fast response times.</p>
           <MultiStepForm />
         </div>
         <section className={styles.features}>
@@ -31,9 +31,9 @@ export default function Home() {
               </p>
             </div>
             <div className={styles.feature}>
-              <span className={styles.featureIcon}>💰</span>
+              <span className={styles.icon}>💰</span>
               <h3>Fair Pricing</h3>
-              <p>Transparent pricing with no hidden fees</p>
+              <p>Transparent, upfront pricing with no hidden fees or surprises</p>
             </div>
             <div className={styles.feature}>
               <div className={styles.featureIcon}>⭐</div>

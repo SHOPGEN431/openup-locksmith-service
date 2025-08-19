@@ -1,0 +1,3 @@
+[33m62f3b8b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Final fix: remove useSearchParams and use system fonts only
+[33m11cd996[m Fix all build errors: remove external fonts and add Suspense boundary
+[33mda06561[m Force new deployment: update Next.js version and add layout comment

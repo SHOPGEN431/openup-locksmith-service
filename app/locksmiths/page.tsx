@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './locksmiths.module.css';
@@ -17,10 +18,11 @@ interface Locksmith {
   specialties: string[];
   certifications: string[];
   verified: boolean;
-  backgroundCheck: boolean;
+  backgroundChecked: boolean;
   insured: boolean;
   responseRate: number;
-  responseTime: number;
+  licenseNumber: string;
+  yearsInBusiness: number;
 }
 
 export default function LocksmithsPage() {
@@ -40,10 +42,11 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Commercial', 'Automotive'],
       certifications: ['ALOA Certified', 'Safe & Vault Technician', 'Master Locksmith'],
       verified: true,
-      backgroundCheck: true,
+      backgroundChecked: true,
       insured: true,
       responseRate: 98,
-      responseTime: 5,
+      licenseNumber: 'L-12345',
+      yearsInBusiness: 10,
     },
     {
       id: '2',
@@ -58,10 +61,11 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Automotive', 'Smart Locks'],
       certifications: ['ALOA Certified', 'Electronic Security Specialist'],
       verified: true,
-      backgroundCheck: true,
+      backgroundChecked: true,
       insured: true,
       responseRate: 100,
-      responseTime: 3,
+      licenseNumber: 'L-67890',
+      yearsInBusiness: 8,
     },
     {
       id: '3',
@@ -76,10 +80,11 @@ export default function LocksmithsPage() {
       specialties: ['Residential', 'Commercial', 'Automotive', 'Safe'],
       certifications: ['ALOA Certified', 'Safe & Vault Technician', 'Master Locksmith', 'Security Consultant'],
       verified: true,
-      backgroundCheck: true,
+      backgroundChecked: true,
       insured: true,
       responseRate: 99,
-      responseTime: 4,
+      licenseNumber: 'L-24680',
+      yearsInBusiness: 12,
     },
   ];
 
@@ -106,27 +111,27 @@ export default function LocksmithsPage() {
                 <Image
                   src={locksmith.image}
                   alt={locksmith.name}
-                  width={120}
-                  height={120}
+                  width={80}
+                  height={80}
                   className={styles.locksmithImage}
                 />
                 {locksmith.verified && (
-                  <span className={styles.verifiedBadge} title="Verified Professional">
-                    ✓ Verified
-                  </span>
+                  <div className={styles.verifiedBadge} title="Verified Professional">
+                    ✓
+                  </div>
                 )}
               </div>
-              <div className={styles.details}>
+              <div className={styles.headerInfo}>
                 <h3>{locksmith.name}</h3>
                 <div className={styles.rating}>
-                  <span className={styles.stars}>{'★'.repeat(Math.floor(locksmith.rating))}</span>
-                  <span className={styles.ratingText}>{locksmith.rating} ({locksmith.reviews} reviews)</span>
+                  <span>⭐ {locksmith.rating}</span>
+                  <span>({locksmith.reviews} reviews)</span>
                 </div>
               </div>
             </div>
 
             <div className={styles.trustIndicators}>
-              {locksmith.backgroundCheck && (
+              {locksmith.backgroundChecked && (
                 <span className={styles.trustBadge} title="Background Checked">
                   🔒 Background Checked
                 </span>
@@ -139,39 +144,33 @@ export default function LocksmithsPage() {
               <span className={styles.trustBadge} title="Response Rate">
                 💬 {locksmith.responseRate}% Response Rate
               </span>
-              <span className={styles.trustBadge} title="Response Time">
-                ⚡ {locksmith.responseTime} min Response Time
+              <span className={styles.trustBadge} title="Years in Business">
+                🏢 {locksmith.yearsInBusiness} years in business
               </span>
             </div>
 
-            <div className={styles.professionalInfo}>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Experience:</span>
-                <span className={styles.infoValue}>{locksmith.experience} years</span>
+            <div className={styles.details}>
+              <h3>{locksmith.name}</h3>
+              <div className={styles.rating}>
+                <span className={styles.stars}>⭐ {locksmith.rating}</span>
+                <span className={styles.reviews}>({locksmith.reviews} reviews)</span>
               </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Response Rate:</span>
-                <span className={styles.infoValue}>{locksmith.responseRate}%</span>
+              <div className={styles.info}>
+                <span>📍 {locksmith.distance} miles away</span>
+                <span>⏱️ {locksmith.estimatedTime} min</span>
+                <span>💰 ${locksmith.price}</span>
               </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Response Time:</span>
-                <span className={styles.infoValue}>{locksmith.responseTime} min</span>
+              <div className={styles.experience}>
+                <span>🛠️ {locksmith.experience} years experience</span>
               </div>
-            </div>
-
-            <div className={styles.info}>
-              <p>📍 {locksmith.distance} miles away</p>
-              <p>⏱️ {locksmith.estimatedTime} mins</p>
-              <p>💰 ${locksmith.price} base rate</p>
-              <p>👨‍🔧 {locksmith.experience} years experience</p>
             </div>
 
             <div className={styles.certifications}>
-              <h4>Certifications & Licenses</h4>
+              <h4>Certifications</h4>
               <div className={styles.certList}>
-                {locksmith.certifications.map((cert, index) => (
-                  <span key={index} className={styles.certification}>
-                    ✓ {cert}
+                {locksmith.certifications.map((cert) => (
+                  <span key={cert} className={styles.certification}>
+                    🏆 {cert}
                   </span>
                 ))}
               </div>

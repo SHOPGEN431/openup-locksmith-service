@@ -99,6 +99,22 @@ function ConfirmPageContent() {
         </div>
 
         <div className={styles.mainContent}>
+          <div className={styles.locksmithProfile}>
+            <div className={styles.profileImage}>
+              <img src={locksmith.image} alt={locksmith.name} />
+              {locksmith.verified && (
+                <div className={styles.verifiedBadge}>✓</div>
+              )}
+            </div>
+            <div className={styles.profileInfo}>
+              <h2>{locksmith.name}</h2>
+              <div className={styles.profileStats}>
+                <span>⭐ {locksmith.rating} ({locksmith.reviews} reviews)</span>
+                <span>🛠️ {locksmith.experience} years experience</span>
+              </div>
+            </div>
+          </div>
+
           <div className={styles.statusSection}>
             {status === 'confirming' && (
               <div className={styles.verifying}>
